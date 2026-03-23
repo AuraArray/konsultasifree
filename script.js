@@ -1,55 +1,98 @@
 /**
- * NEXALYST CORE ENGINE v1.0
- * Developed for: Rizky Tanjung
- * Logic: Smart Calculation, Admin Synchronization, and Security.
+ * NEXALYST CORE ENGINE v2.2 - Elevatio AuraArray
+ * Logic: Smart Context Analysis & Persistent Logging
  */
 
-// 1. DATABASE HARGA DEFAULT
-// Ini digunakan jika Anda belum pernah mengatur harga di Panel Admin.
+// 1. DATABASE HARGA DEFAULT (Bisa diubah via Admin Panel nanti)
 const defaultPrices = {
-    landing: 2500000,
-    webProfil: 3500000,
-    webApp: 7000000,
-    featLogin: 500000,
-    featPay: 1000000,
-    featAdmin: 1500000
+    landing: 2500000,    // Harga dasar Landing Page
+    webProfil: 4000000,  // Harga dasar Web Profil Bisnis
+    webApp: 7500000,     // Harga dasar Web App/Sistem
+    fiturLogin: 1000000, // Tambahan fitur akun/login
+    fiturPayment: 2000000 // Tambahan fitur bayar otomatis/QRIS
 };
 
-// 2. FUNGSI AMBIL HARGA AKTIF
-// Sistem akan mengecek apakah ada harga kustom di LocalStorage (dari Admin Panel).
+/**
+ * MENGAMBIL HARGA AKTIF
+ * Mencoba mengambil dari memori Admin, jika kosong pakai harga default.
+ */
 function getActivePrices() {
-    const saved = localStorage.getItem('myProjectPrices');
-    if (saved) {
-        return JSON.parse(saved);
-    }
-    return defaultPrices;
+    const saved = localStorage.getItem('auraArray_prices');
+    return saved ? JSON.parse(saved) : defaultPrices;
 }
 
-// 3. LOGIKA VALIDASI ADMIN
-// Password rahasia Anda. Ganti "admin123" sesuai keinginan Anda.
-function validateAdmin(inputPass) {
-    const secureKey = "admin123"; 
-    return inputPass === secureKey;
-}
-
-// 4. MESIN PENGHITUNG RANGE HARGA (THE CALCULATOR)
-// Fungsi ini menghitung total biaya dan memberikan rentang (Range) harga.
-function calculateRange(base, featuresTotal, multiplier) {
-    const rawTotal = (base + featuresTotal) * multiplier;
+/**
+ * FUNGSI ANALISA TEKS (THE BRAIN)
+ * Menganalisis kata kunci dari curhatan klien untuk menentukan harga.
+ */
+function analisaKebutuhan(teks) {
+    const t = teks.toLowerCase();
+    const p = getActivePrices();
     
-    // Memberikan margin 10% ke bawah dan 10% ke atas agar negosiasi lebih fleksibel.
-    const minRange = Math.round(rawTotal * 0.9);
-    const maxRange = Math.round(rawTotal * 1.1);
+    let estimasi = p.landing; // Mulai dari harga terendah
+    let kategori = "Landing Page / Single Page";
 
-    return {
-        min: minRange,
-        max: maxRange,
-        fixed: rawTotal
-    };
+    // Deteksi Web Profil (Bisnis/Instansi/Perusahaan)
+    if (t.includes("profil") || t.includes("perusahaan") || t.includes("company") || t.includes("bisnis") || t.includes("instansi")) {
+        estimasi = p.webProfil;
+        kategori = "Business Profile Website";
+    }
+
+    // Deteksi Web App / Sistem Kompleks
+    if (t.includes("sistem") || t.includes("aplikasi") || t.includes("database") || t.includes("manajemen") || t.includes("admin panel")) {
+        estimasi = p.webApp;
+        kategori = "Custom Web Application";
+    }
+
+    // Deteksi Fitur Tambahan: Pembayaran (QRIS/Otomatis)
+    if (t.includes("bayar") || t.includes("otomatis") || t.includes("qris") || t.includes("payment") || t.includes("checkout")) {
+        estimasi += p.fiturPayment;
+        kategori += " + Payment Integration";
+    }
+
+    // Deteksi Fitur Tambahan: Login/Akun Member
+    if (t.includes("login") || t.includes("daftar") || t.includes("akun") || t.includes("member")) {
+        estimasi += p.fiturLogin;
+        kategori += " + User Auth System";
+    }
+
+    return { estimasi, kategori };
 }
 
-// 5. FORMATTER MATA UANG (RUPIAH)
-// Mengubah angka 5000000 menjadi Rp 5.000.000 agar terlihat profesional.
+/**
+ * PENYIMPANAN LOG KONSULTASI (FOR ADMIN)
+ * Menyimpan data klien ke LocalStorage agar bisa dilihat di Admin Panel.
+ */
+function saveLog(data) {
+    try {
+        let logs = JSON.parse(localStorage.getItem('auraArray_logs') || "[]");
+        // Tambahkan timestamp (waktu) saat klien mengisi form
+        const newEntry = { 
+            ...data, 
+            id: Date.now(),
+            date: new Date().toLocaleString('id-ID') 
+        };
+        logs.push(newEntry);
+        localStorage.setItem('auraArray_logs', JSON.stringify(logs));
+        console.log("Log saved for Elevatio Admin ✅");
+    } catch (e) {
+        console.error("Gagal menyimpan log:", e);
+    }
+}
+
+/**
+ * KEAMANAN ADMIN
+ * Password untuk masuk ke halaman admin.html
+ */
+function validateAdmin(input) {
+    const secureKey = "admin123"; // Silakan ganti password ini jika mau
+    return input === secureKey;
+}
+
+/**
+ * FORMATTER RUPIAH (PRO)
+ * Mengubah angka menjadi format Rp 0.000.000
+ */
 const toIDR = (val) => {
     return new Intl.NumberFormat('id-ID', {
         style: 'currency',
@@ -58,5 +101,5 @@ const toIDR = (val) => {
     }).format(val);
 };
 
-// 6. LOG CONSOLE (Untuk Debugging)
-console.log("%cNexalyst Engine: Active", "color: #00d4ff; font-weight: bold; font-size: 14px;");
+// Console Branding
+console.log("%c ELEVATIO - AURAARRAY CORE READY ", "background: #020617; color: #38bdf8; font-weight: bold; border: 1px solid #38bdf8; padding: 5px;");
