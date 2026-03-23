@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konsultasi Proyek Digital | Nexalyst</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .bg-gradient-custom {
+            background: linear-gradient(135deg, #001F3F 0%, #0074D9 50%, #7FDBFF 100%);
+        }
+        .step-content { display: none; }
+        .step-content.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gradient-custom min-h-screen text-white font-sans flex items-center justify-center p-4">
+
+    <div class="glass w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden">
+        <div class="h-2 bg-white/10 w-full">
+            <div id="progressBar" class="h-full bg-sky-400 transition-all duration-500" style="width: 20%;"></div>
+        </div>
+
+        <div class="p-8 md:p-12">
+            <div id="step1" class="step-content active">
+                <h2 class="text-3xl font-bold mb-2">Halo! 👋</h2>
+                <p class="text-blue-100 mb-8 text-sm">Mari kita mulai dengan informasi dasar Anda.</p>
+                
+                <div class="space-y-4">
+                    <input type="text" id="nama" placeholder="Nama Lengkap Anda" class="w-full p-4 rounded-xl bg-white/10 border border-white/20 focus:ring-2 focus:ring-sky-300 outline-none">
+                    <input type="text" id="bisnis" placeholder="Nama Bisnis / Proyek" class="w-full p-4 rounded-xl bg-white/10 border border-white/20 focus:ring-2 focus:ring-sky-300 outline-none">
+                    <input type="tel" id="whatsapp" placeholder="Nomor WhatsApp (Aktif)" class="w-full p-4 rounded-xl bg-white/10 border border-white/20 focus:ring-2 focus:ring-sky-300 outline-none">
+                </div>
+            </div>
+
+            <div id="step2" class="step-content">
+                <h2 class="text-2xl font-bold mb-6">Apa yang ingin Anda bangun?</h2>
+                <div class="grid grid-cols-1 gap-3">
+                    <button onclick="setLayanan('Landing Page', 2500000)" class="p-4 text-left rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 transition">
+                        <span class="block font-bold">Landing Page</span>
+                        <span class="text-xs text-blue-100 italic">Satu halaman fokus promosi & jualan.</span>
+                    </button>
+                    <button onclick="setLayanan('Web Profil', 3500000)" class="p-4 text-left rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 transition">
+                        <span class="block font-bold">Web Profil Bisnis</span>
+                        <span class="text-xs text-blue-100 italic">Informasi lengkap tentang perusahaan Anda.</span>
+                    </button>
+                    <button onclick="setLayanan('Web App/SaaS', 7000000)" class="p-4 text-left rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 transition">
+                        <span class="block font-bold">Web App / Sistem Kustom</span>
+                        <span class="text-xs text-blue-100 italic">Sistem kerja dengan database & fitur kompleks.</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="step3" class="step-content">
+                <h2 class="text-2xl font-bold mb-4">Fitur Tambahan (Opsional)</h2>
+                <p class="text-xs text-blue-100 mb-6 italic">*Klik untuk memilih yang Anda butuhkan.</p>
+                <div class="space-y-3">
+                    <label class="flex items-center p-4 rounded-xl bg-white/10 border border-white/20 cursor-pointer hover:bg-white/20">
+                        <input type="checkbox" value="500000" data-nama="Login Userly" class="feat-check mr-4 h-5 w-5">
+                        <div>
+                            <span class="block font-semibold">Sistem Login (Userly)</span>
+                            <span class="text-xs text-blue-100">User bisa punya akun sendiri dengan aman.</span>
+                        </div>
+                    </label>
+                    <label class="flex items-center p-4 rounded-xl bg-white/10 border border-white/20 cursor-pointer hover:bg-white/20">
+                        <input type="checkbox" value="1000000" data-nama="Payment Gateway" class="feat-check mr-4 h-5 w-5">
+                        <div>
+                            <span class="block font-semibold">Pembayaran Otomatis</span>
+                            <span class="text-xs text-blue-100">Bisa bayar via Transfer, QRIS, & E-Wallet langsung.</span>
+                        </div>
+                    </label>
+                    <label class="flex items-center p-4 rounded-xl bg-white/10 border border-white/20 cursor-pointer hover:bg-white/20">
+                        <input type="checkbox" value="1500000" data-nama="Admin Dashboard" class="feat-check mr-4 h-5 w-5">
+                        <div>
+                            <span class="block font-semibold">Admin Dashboard</span>
+                            <span class="text-xs text-blue-100">Panel khusus Anda untuk kelola data & konten.</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div id="step4" class="step-content">
+                <h2 class="text-2xl font-bold mb-6">Waktu & Budget</h2>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm mb-2">Kapan Anda ingin proyek ini selesai?</label>
+                        <select id="deadline" class="w-full p-4 rounded-xl bg-white/10 border border-white/20 outline-none">
+                            <option value="1" class="text-black">Normal (2-4 Minggu)</option>
+                            <option value="1.5" class="text-black">Cepat (1 Minggu) - Biaya Prioritas</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm mb-2">Estimasi budget yang Anda siapkan saat ini?</label>
+                        <input type="number" id="budgetKlien" placeholder="Contoh: 3000000" class="w-full p-4 rounded-xl bg-white/10 border border-white/20 outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <div id="step5" class="step-content">
+                <div class="text-center">
+                    <div class="inline-block p-4 bg-sky-400 rounded-full mb-6">
+                        <svg class="w-12 h-12 text-navy-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h2 class="text-3xl font-bold mb-4 text-sky-300">Hasil Analisis</h2>
+                    <div id="summaryResult" class="text-left bg-white/10 p-6 rounded-2xl mb-6 text-sm leading-relaxed">
+                        </div>
+                    <button onclick="kirimWhatsApp()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-xl shadow-lg transition">
+                        Konsultasi via WhatsApp Sekarang
+                    </button>
+                </div>
+            </div>
+
+            <div id="navBtn" class="mt-10 flex justify-between">
+                <button id="prevBtn" onclick="changeStep(-1)" class="px-8 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-sm hidden transition">Kembali</button>
+                <button id="nextBtn" onclick="changeStep(1)" class="px-8 py-3 rounded-xl bg-sky-400 hover:bg-sky-500 text-navy-900 font-bold ml-auto transition">Selanjutnya</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let dataProyek = {
+            namaLayanan: '',
+            hargaDasar: 0,
+            fitur: [],
+            totalFitur: 0
+        };
+
+        // Ganti step
+        function changeStep(n) {
+            // Validasi Step 1
+            if(currentStep === 1 && n === 1) {
+                if(!document.getElementById('nama').value || !document.getElementById('whatsapp').value) {
+                    alert("Mohon isi Nama dan WhatsApp!"); return;
+                }
+            }
+
+            const steps = document.querySelectorAll(".step-content");
+            steps[currentStep-1].classList.remove("active");
+            currentStep += n;
+
+            if(currentStep > steps.length) return;
+
+            steps[currentStep-1].classList.add("active");
+            updateUI();
+        }
+
+        function setLayanan(nama, harga) {
+            dataProyek.namaLayanan = nama;
+            dataProyek.hargaDasar = harga;
+            changeStep(1);
+        }
+
+        function updateUI() {
+            document.getElementById('progressBar').style.width = (currentStep / 5 * 100) + "%";
+            document.getElementById('prevBtn').style.display = (currentStep === 1 || currentStep === 5) ? 'none' : 'block';
+            document.getElementById('nextBtn').style.display = (currentStep === 2 || currentStep === 5) ? 'none' : 'block';
+
+            if(currentStep === 5) hitungHasil();
+        }
+
+        function hitungHasil() {
+            // Cek fitur yang dipilih
+            const checks = document.querySelectorAll('.feat-check:checked');
+            dataProyek.fitur = [];
+            dataProyek.totalFitur = 0;
+            checks.forEach(c => {
+                dataProyek.fitur.push(c.getAttribute('data-nama'));
+                dataProyek.totalFitur += parseInt(c.value);
+            });
+
+            // Perhitungan Harga
+            const multiplier = parseFloat(document.getElementById('deadline').value);
+            const totalEstimasi = (dataProyek.hargaDasar + dataProyek.totalFitur) * multiplier;
+            const budgetKlien = parseInt(document.getElementById('budgetKlien').value) || 0;
+
+            const formatRupiah = (val) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(val);
+
+            // Analisis Budget
+            let statusBudget = (budgetKlien >= totalEstimasi) ? 
+                "<span class='text-green-400 font-bold'>Budget Sesuai</span>" : 
+                "<span class='text-red-400 font-bold'>Budget Perlu Penyesuaian</span>";
+
+            let saran = (budgetKlien < totalEstimasi) ? 
+                "<p class='mt-2 text-xs text-blue-200'>*Budget Anda sedikit di bawah estimasi. Kami sarankan diskusi lebih lanjut untuk paket ekonomis.</p>" : "";
+
+            document.getElementById('summaryResult').innerHTML = `
+                <p><strong>Layanan:</strong> ${dataProyek.namaLayanan}</p>
+                <p><strong>Fitur:</strong> ${dataProyek.fitur.join(', ') || 'Standar'}</p>
+                <hr class="my-3 border-white/20">
+                <p><strong>Budget Anda:</strong> ${formatRupiah(budgetKlien)}</p>
+                <p><strong>Estimasi Profesional:</strong> ${formatRupiah(totalEstimasi * 0.9)} - ${formatRupiah(totalEstimasi * 1.1)}</p>
+                <p><strong>Status:</strong> ${statusBudget}</p>
+                ${saran}
+            `;
+            
+            // Simpan hasil ke window untuk WhatsApp
+            window.finalResult = {
+                estimasi: formatRupiah(totalEstimasi),
+                budget: formatRupiah(budgetKlien)
+            };
+        }
+
+        function kirimWhatsApp() {
+            const nama = document.getElementById('nama').value;
+            const wa = document.getElementById('whatsapp').value;
+            const msg = `Halo Rizky Tanjung!%0A%0ASaya ingin konsultasi proyek.%0A*Nama:* ${nama}%0A*WA:* ${wa}%0A*Proyek:* ${dataProyek.namaLayanan}%0A*Fitur:* ${dataProyek.fitur.join(', ')}%0A*Budget Saya:* ${window.finalResult.budget}%0A*Estimasi Sistem:* ${window.finalResult.estimasi}%0A%0AMohon info lebih lanjut ya!`;
+            
+            window.open(`https://wa.me/6281234567890?text=${msg}`, '_blank'); // Ganti nomor Anda di sini
+        }
+    </script>
+</body>
+</html>
