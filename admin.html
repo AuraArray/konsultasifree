@@ -3,140 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login | Elevatio - AuraArray</title>
+    <title>Management Dashboard | Elevatio - AuraArray</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .bg-gradient-admin {
-            background: linear-gradient(135deg, #001F3F 0%, #001a35 100%);
-        }
+        body { background-color: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .glass-card { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(51, 65, 85, 0.4); backdrop-filter: blur(20px); }
+        .log-card { background: #0f172a; border: 1px solid #1e293b; transition: all 0.3s ease; }
+        .log-card:hover { border-color: #334155; transform: translateX(5px); }
     </style>
 </head>
-<body class="bg-gradient-admin min-h-screen text-white font-sans flex items-center justify-center p-6">
+<body class="min-h-screen p-6 md:p-12">
 
-    <div id="loginSection" class="glass p-10 rounded-3xl shadow-2xl w-full max-w-md text-center border-t border-sky-500/30">
-        <div class="mb-6 inline-block p-4 bg-sky-500/10 rounded-2xl">
-            <svg class="w-12 h-12 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-        </div>
-        <h1 class="text-3xl font-bold mb-1 text-white">Admin Access</h1>
-        <p class="text-sky-300 text-xs uppercase tracking-widest mb-8">Elevatio - AuraArray</p>
-        
-        <div class="text-left mb-6">
-            <label class="block text-xs text-blue-300 mb-2 ml-1 uppercase font-bold">Security Password</label>
-            <input type="password" id="passInput" placeholder="••••••••" 
-                class="w-full p-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-blue-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition-all">
-        </div>
-        
-        <button onclick="handleLogin()" 
-            class="w-full bg-sky-500 hover:bg-sky-400 text-navy-900 font-black py-4 rounded-xl transition duration-300 shadow-xl shadow-sky-500/20 uppercase tracking-wider">
-            Authorize & Enter
+    <div id="login-gate" class="max-w-md mx-auto mt-20 glass-card p-10 rounded-[2.5rem] text-center">
+        <h1 class="text-xl font-black italic mb-6 tracking-widest text-white uppercase">Elevatio Auth</h1>
+        <input type="password" id="pass-admin" placeholder="Security Password" 
+            class="w-full p-4 rounded-xl bg-slate-900 border border-slate-800 text-white text-center outline-none focus:border-slate-600 mb-6">
+        <button onclick="handleLogin()" class="w-full bg-white text-slate-950 font-black p-4 rounded-xl hover:bg-slate-200 transition uppercase tracking-widest text-xs">
+            Authorize Access
         </button>
-        <p id="errorLabel" class="text-red-400 mt-4 text-xs hidden">⚠ Akses Ditolak: Password Salah!</p>
+        <p id="err-msg" class="text-red-500 text-[10px] mt-4 hidden uppercase font-bold tracking-widest">Akses Ditolak!</p>
     </div>
 
-    <div id="dashboardSection" class="glass p-8 md:p-12 rounded-3xl shadow-2xl w-full max-w-5xl hidden border-t border-sky-400/20">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+    <div id="main-dash" class="hidden max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-6">
             <div>
-                <h2 class="text-3xl font-bold text-sky-300 tracking-tight">Price Management</h2>
-                <p class="text-blue-200 text-sm">Update harga layanan Elevatio - AuraArray</p>
+                <h1 class="text-3xl font-black italic tracking-tighter text-white">AURAARRAY MGMT</h1>
+                <p class="text-slate-500 text-xs uppercase tracking-[0.3em] mt-1">Project Monitoring System</p>
             </div>
-            <button onclick="location.reload()" class="bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white px-6 py-2 rounded-xl text-xs font-bold transition-all border border-red-500/20">
-                Logout & Lock
+            <button onclick="location.reload()" class="text-[10px] font-bold text-slate-500 border border-slate-800 px-6 py-2 rounded-full hover:bg-slate-900 transition uppercase tracking-widest">
+                Logout
             </button>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
-                <h3 class="font-bold text-lg text-blue-100 mb-6 flex items-center gap-2">
-                    <span class="w-2 h-2 bg-sky-400 rounded-full"></span> Harga Dasar
-                </h3>
-                <div class="space-y-5">
-                    <div>
-                        <label class="block text-xs font-semibold text-blue-300 mb-2 uppercase">Landing Page (Rp)</label>
-                        <input type="number" id="baseLanding" class="w-full bg-black/30 border border-white/10 rounded-xl p-4 focus:ring-2 focus:ring-sky-400 outline-none transition">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            
+            <div class="lg:col-span-2 space-y-6">
+                <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] mb-4">Inbound Leads</h2>
+                <div id="log-container" class="space-y-4">
                     </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-blue-300 mb-2 uppercase">Web Profil (Rp)</label>
-                        <input type="number" id="baseWebProfil" class="w-full bg-black/30 border border-white/10 rounded-xl p-4 focus:ring-2 focus:ring-sky-400 outline-none transition">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-blue-300 mb-2 uppercase">Web App / SaaS (Rp)</label>
-                        <input type="number" id="baseWebApp" class="w-full bg-black/30 border border-white/10 rounded-xl p-4 focus:ring-2 focus:ring-sky-400 outline-none transition">
-                    </div>
-                </div>
             </div>
 
-            <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
-                <h3 class="font-bold text-lg text-blue-100 mb-6 flex items-center gap-2">
-                    <span class="w-2 h-2 bg-purple-400 rounded-full"></span> Biaya Fitur
-                </h3>
-                <div class="space-y-5">
-                    <div>
-                        <label class="block text-xs font-semibold text-blue-300 mb-2 uppercase">Sistem Login (Rp)</label>
-                        <input type="number" id="featLogin" class="w-full bg-black/30 border border-white/10 rounded-xl p-4 focus:ring-2 focus:ring-sky-400 outline-none transition">
+            <div class="space-y-8">
+                <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] mb-4">Master Pricing</h2>
+                <div id="price-editor" class="glass-card p-8 rounded-3xl space-y-6 border-slate-800">
                     </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-blue-300 mb-2 uppercase">Payment Gateway (Rp)</label>
-                        <input type="number" id="featPay" class="w-full bg-black/30 border border-white/10 rounded-xl p-4 focus:ring-2 focus:ring-sky-400 outline-none transition">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-blue-300 mb-2 uppercase">Admin Dashboard (Rp)</label>
-                        <input type="number" id="featAdmin" class="w-full bg-black/30 border border-white/10 rounded-xl p-4 focus:ring-2 focus:ring-sky-400 outline-none transition">
-                    </div>
-                </div>
+                <button onclick="updatePrices()" class="w-full bg-slate-100 text-slate-900 font-black p-4 rounded-xl hover:bg-white transition shadow-xl shadow-white/5 uppercase tracking-widest text-xs">
+                    Save Price Settings
+                </button>
+                <button onclick="clearLogs()" class="w-full text-red-500/50 text-[10px] font-bold uppercase tracking-widest hover:text-red-500 transition py-4">
+                    Clear All Logs
+                </button>
             </div>
+
         </div>
-
-        <button onclick="saveAllPrices()" class="mt-10 w-full bg-green-500 hover:bg-green-600 text-white font-black py-4 rounded-xl transition shadow-xl shadow-green-500/20">
-            SIMPAN SEMUA PERUBAHAN
-        </button>
-        
-        <p class="text-center text-[10px] text-blue-400/40 mt-10 uppercase tracking-widest">
-            System Architecture by <span class="text-sky-400 font-bold">Elevatio - AuraArray</span>
-        </p>
     </div>
 
     <script src="script.js"></script>
-
     <script>
         function handleLogin() {
-            const input = document.getElementById('passInput').value;
-            // Memanggil fungsi dari script.js
+            const input = document.getElementById('pass-admin').value;
             if(validateAdmin(input)) {
-                document.getElementById('loginSection').classList.add('hidden');
-                document.getElementById('dashboardSection').classList.remove('hidden');
-                initAdminValues();
+                document.getElementById('login-gate').classList.add('hidden');
+                document.getElementById('main-dash').classList.remove('hidden');
+                renderDashboard();
             } else {
-                document.getElementById('errorLabel').classList.remove('hidden');
-                document.getElementById('passInput').value = "";
+                document.getElementById('err-msg').classList.remove('hidden');
             }
         }
 
-        function initAdminValues() {
-            const current = getActivePrices();
-            document.getElementById('baseLanding').value = current.landing;
-            document.getElementById('baseWebProfil').value = current.webProfil;
-            document.getElementById('baseWebApp').value = current.webApp;
-            document.getElementById('featLogin').value = current.featLogin;
-            document.getElementById('featPay').value = current.featPay;
-            document.getElementById('featAdmin').value = current.featAdmin;
+        function renderDashboard() {
+            // 1. Render Riwayat Konsultasi (Logs)
+            const logs = JSON.parse(localStorage.getItem('auraArray_logs') || "[]").reverse();
+            const logContainer = document.getElementById('log-container');
+            
+            logContainer.innerHTML = logs.map(l => `
+                <div class="log-card p-6 rounded-2xl">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 block uppercase mb-1">${l.date}</span>
+                            <h3 class="text-lg font-bold text-white">${l.nama} <span class="text-slate-500 font-normal text-sm ml-2">(${l.wa})</span></h3>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] font-black text-sky-500 uppercase tracking-widest block">${l.kategori}</span>
+                            <span class="text-xl font-black text-white">${l.estimasi}</span>
+                        </div>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed italic border-t border-slate-800 pt-4">"${l.pesan}"</p>
+                </div>
+            `).join('') || `<div class="text-center py-20 text-slate-600 italic text-sm">Belum ada data masuk dari klien.</div>`;
+
+            // 2. Render Price Editor
+            const p = getActivePrices();
+            const editor = document.getElementById('price-editor');
+            const fields = [
+                { id: 'landing', label: 'Landing Page' },
+                { id: 'webProfil', label: 'Web Profile' },
+                { id: 'webApp', label: 'Web App/System' },
+                { id: 'fiturLogin', label: 'Auth System' },
+                { id: 'fiturPayment', label: 'Payment Integration' }
+            ];
+
+            editor.innerHTML = fields.map(f => `
+                <div class="space-y-2">
+                    <label class="text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1">${f.label}</label>
+                    <input type="number" id="price-${f.id}" value="${p[f.id]}" 
+                        class="w-full p-3 rounded-xl bg-slate-900 border border-slate-800 text-white font-bold outline-none focus:border-slate-600">
+                </div>
+            `).join('');
         }
 
-        function saveAllPrices() {
-            const newPrices = {
-                landing: parseInt(document.getElementById('baseLanding').value),
-                webProfil: parseInt(document.getElementById('baseWebProfil').value),
-                webApp: parseInt(document.getElementById('baseWebApp').value),
-                featLogin: parseInt(document.getElementById('featLogin').value),
-                featPay: parseInt(document.getElementById('featPay').value),
-                featAdmin: parseInt(document.getElementById('featAdmin').value)
+        function updatePrices() {
+            const newP = {
+                landing: parseInt(document.getElementById('price-landing').value),
+                webProfil: parseInt(document.getElementById('price-webProfil').value),
+                webApp: parseInt(document.getElementById('price-webApp').value),
+                fiturLogin: parseInt(document.getElementById('price-fiturLogin').value),
+                fiturPayment: parseInt(document.getElementById('price-fiturPayment').value)
             };
-            localStorage.setItem('myProjectPrices', JSON.stringify(newPrices));
-            alert("✅ Data Berhasil Diperbarui!");
+            localStorage.setItem('auraArray_prices', JSON.stringify(newP));
+            alert("Harga Master Berhasil Diperbarui! ✅");
+        }
+
+        function clearLogs() {
+            if(confirm("Hapus semua riwayat konsultasi klien?")) {
+                localStorage.removeItem('auraArray_logs');
+                renderDashboard();
+            }
         }
     </script>
 </body>
