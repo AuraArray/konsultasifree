@@ -85,7 +85,7 @@ function saveLog(data) {
  * Password untuk masuk ke halaman admin.html
  */
 function validateAdmin(input) {
-    const secureKey = "admin123"; // Silakan ganti password ini jika mau
+    const secureKey = "elevatio24"; // Silakan ganti password ini jika mau
     return input === secureKey;
 }
 
